@@ -1,0 +1,101 @@
+{
+	"info": {
+		"_postman_id": "37485633-2b79-404d-a2a7-454236613dd5",
+		"name": "TODOOSE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get TODO items",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost/items",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Successful",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"items"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [],
+					"cookie": [],
+					"body": "[\n\t{\"identifier\": 1, \"description\": \"Read TODO items\"},\n\t{\"identifier\": 2, \"description\": \"Create new TODO items\"},\n\t{\"identifier\": 3, \"description\": \"Edit TODO item\"},\n\t{\"identifier\": 4, \"description\": \"Mark items as DONE\"}\n]\n"
+				}
+			]
+		},
+		{
+			"name": "Create new TODO item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost/items",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"items"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Successful",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": []
+						},
+						"url": {
+							"raw": "http://localhost/items",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"items"
+							]
+						}
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": null,
+					"cookie": [],
+					"body": ""
+				}
+			]
+		}
+	]
+}
