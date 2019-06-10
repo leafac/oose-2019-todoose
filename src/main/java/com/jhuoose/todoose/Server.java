@@ -1,32 +1,31 @@
-package edu.jhu.cs.oose;
+package com.jhuoose.todoose;
 
 import io.javalin.Javalin;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Server {
     public static void main(String[] args) {
         Javalin app = Javalin.create().start(7000);
-        var items = List.of(
-                new Item(1, "Read TODO items"),
-                new Item(2, "Create new TODO items"),
-                new Item(3, "Edit TODO item"),
-                new Item(4, "Mark items as DONE")
-        );
+        var items = new ArrayList<Item>();
         app.get("/items", ctx -> {
             ctx.json(items);
+        });
+        app.post("/items", ctx -> {
+            items.add(new Item());
+            ctx.status(201);
         });
     }
 }
 
 class Item {
-    int identifier;
-    String description;
+    private int identifier;
+    private String description;
+    private static int currentIdentifier = 0;
 
-    public Item(int identifier, String description) {
-        this.identifier = identifier;
-        this.description = description;
+    public Item() {
+        this.identifier = currentIdentifier++;
+        this.description = "";
     }
 
     public int getIdentifier() {
