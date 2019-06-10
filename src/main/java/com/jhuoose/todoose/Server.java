@@ -1,9 +1,8 @@
-package edu.jhu.cs.oose;
+package com.jhuoose.todoose;
 
 import io.javalin.Javalin;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Server {
     public static void main(String[] args) {
