@@ -16,7 +16,6 @@ public class Server {
             items.add(new Item());
             ctx.status(201);
         });
-//        app.enableStaticFiles("/main/resources/public", Location.EXTERNAL);
         app.enableStaticFiles("/public");
         app.start(7000);
     }
