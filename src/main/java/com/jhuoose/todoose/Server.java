@@ -1,12 +1,14 @@
 package com.jhuoose.todoose;
 
 import io.javalin.Javalin;
+import io.javalin.staticfiles.Location;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
     public static void main(String[] args) {
-        Javalin app = Javalin.create().start(7000);
+        Javalin app = Javalin.create();
         var items = new ArrayList<Item>();
         app.get("/items", ctx -> {
             ctx.json(items);
@@ -15,6 +17,8 @@ public class Server {
             items.add(new Item());
             ctx.status(201);
         });
+        app.enableStaticFiles("/public");
+        app.start(7000);
     }
 }
 

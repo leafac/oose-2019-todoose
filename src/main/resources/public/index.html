@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>TODOOSE</title>
+    <script src="/javascripts/react.development.js" crossorigin></script>
+    <script src="/javascripts/react-dom.development.js" crossorigin></script>
+    <script src="/javascripts/babel.js"></script>
+    <script type="text/babel">
+        const getDataFromServer = async () => {
+            const response = await fetch("/items");
+            const dataFromServer = await response.json();
+            ReactDOM.render(
+                <div>
+                    <h1>TODOOSE</h1>
+                    <ul>
+                        {dataFromServer.map(item => <li key={item.identifier}>{item.description}</li>)}
+                    </ul>
+                    <button onClick={() => { fetch("/items", { method: "POST" })}}>+</button>
+                </div>,
+                document.querySelector("#application")
+            );
+            window.setTimeout(() => { getDataFromServer(); }, 200);
+        };
+        getDataFromServer();
+    </script>
+</head>
+<body>
+    <div id="application"></div>
+    <noscript>You need JavaScript to use this application.</noscript>
+</body>
+</html>
