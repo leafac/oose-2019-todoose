@@ -16,7 +16,7 @@
                     <ul>
                         {dataFromServer.map(item => <li key={item.identifier}>{item.description}</li>)}
                     </ul>
-                    <button>+</button>
+                    <button onClick={() => { fetch("/items", { method: "POST" })}}>+</button>
                 </div>,
                 document.querySelector("#application")
             );
