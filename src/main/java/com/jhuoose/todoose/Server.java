@@ -4,6 +4,7 @@ import io.javalin.Javalin;
 import io.javalin.staticfiles.Location;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Server {
     public static void main(String[] args) {
@@ -29,6 +30,17 @@ class Item {
     public Item() {
         this.identifier = currentIdentifier++;
         this.description = "";
+        var list = List.of(1, 2, 3);
+        list.forEach(number -> {
+            System.out.println(number);
+        });
+        for (var number :  list) {
+            System.out.println(number);
+        }
+        for (int i = 0; i < list.size(); i++) {
+            var number = list.get(i);
+            System.out.println(number);
+        }
     }
 
     public int getIdentifier() {

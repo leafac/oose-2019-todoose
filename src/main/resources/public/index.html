@@ -7,14 +7,24 @@
     <script src="/javascripts/react-dom.development.js" crossorigin></script>
     <script src="/javascripts/babel.js"></script>
     <script type="text/babel">
+        const realFakeDataJSON = `
+[
+    {
+        "identifier": 0,
+        "description": "Hello"
+    },
+    {
+        "identifier": 1,
+        "description": "YASH"
+    }
+]
+        `;
+        const realFakeData = JSON.parse(realFakeDataJSON);
         ReactDOM.render(
             <div>
                 <h1>TODOOSE</h1>
                 <ul>
-                    <li>Read TODO items</li>
-                    <li>Read TODO items</li>
-                    <li>Read TODO items</li>
-                    <li>Read TODO items</li>
+                    {realFakeData.map(item => <li>{item.description}</li>)}
                 </ul>
                 <button>+</button>
             </div>,
