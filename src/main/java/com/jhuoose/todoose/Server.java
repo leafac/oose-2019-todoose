@@ -1,20 +1,44 @@
 package com.jhuoose.todoose;
 
 import io.javalin.Javalin;
-import io.javalin.staticfiles.Location;
+import io.javalin.JavalinEvent;
 
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Server {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         Javalin app = Javalin.create();
-        var items = new ArrayList<Item>();
+        var connection = DriverManager.getConnection("jdbc:sqlite:todoose.db");
+        app.event(JavalinEvent.SERVER_STARTING, () -> {
+            var statement = connection.createStatement();
+            statement.execute("CREATE TABLE IF NOT EXISTS items (identifier INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT)");
+            statement.close();
+        });
+        app.event(JavalinEvent.SERVER_STOPPED, () -> {
+            connection.close();
+        });
         app.get("/items", ctx -> {
+            var items = new ArrayList<Item>();
+            var statement = connection.createStatement();
+            var result = statement.executeQuery("SELECT identifier, description FROM items");
+            while (result.next()) {
+                items.add(
+                        new Item(
+                                result.getInt("identifier"),
+                                result.getString("description")
+                        )
+                );
+            }
+            result.close();
+            statement.close();
             ctx.json(items);
         });
         app.post("/items", ctx -> {
-            items.add(new Item());
+            var statement = connection.createStatement();
+            statement.execute("INSERT INTO items (description) VALUES (\"\")");
+            statement.close();
             ctx.status(201);
         });
         app.enableStaticFiles("/public");
@@ -25,11 +49,10 @@ public class Server {
 class Item {
     private int identifier;
     private String description;
-    private static int currentIdentifier = 0;
 
-    public Item() {
-        this.identifier = currentIdentifier++;
-        this.description = "";
+    public Item(int identifier, String description) {
+        this.identifier = identifier;
+        this.description = description;
     }
 
     public int getIdentifier() {
