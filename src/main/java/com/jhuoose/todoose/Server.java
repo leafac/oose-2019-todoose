@@ -1,23 +1,36 @@
 package com.jhuoose.todoose;
 
 import io.javalin.Javalin;
-import io.javalin.JavalinEvent;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Server {
     public static void main(String[] args) throws SQLException {
-        Javalin app = Javalin.create();
-        var connection = DriverManager.getConnection("jdbc:sqlite:todoose.db");
-        app.event(JavalinEvent.SERVER_STARTING, () -> {
-            var statement = connection.createStatement();
-            statement.execute("CREATE TABLE IF NOT EXISTS items (identifier INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT)");
-            statement.close();
+        Javalin app = Javalin.create(config -> {
+            config.addStaticFiles("/public");
         });
-        app.event(JavalinEvent.SERVER_STOPPED, () -> {
-            connection.close();
+        var connection = DriverManager.getConnection("jdbc:sqlite:todoose.db");
+        app.events(event -> {
+            event.serverStarting(() -> {
+                Statement statement = null;
+                try {
+                    statement = connection.createStatement();
+                    statement.execute("CREATE TABLE IF NOT EXISTS items (identifier INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT)");
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+            event.serverStopped(() -> {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
         });
         app.get("/items", ctx -> {
             var items = new ArrayList<Item>();
@@ -41,7 +54,6 @@ public class Server {
             statement.close();
             ctx.status(201);
         });
-        app.enableStaticFiles("/public");
         app.start(7000);
     }
 }
