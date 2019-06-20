@@ -26,3 +26,5 @@ test {
         events "passed", "skipped", "failed"
     }
 }
+
+task stage(dependsOn: "assemble")
