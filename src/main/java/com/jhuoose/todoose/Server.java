@@ -54,7 +54,7 @@ public class Server {
             statement.close();
             ctx.status(201);
         });
-        app.start(System.getenv("PORT") == null ? 7000 : Integer.getInteger(System.getenv("PORT")));
+        app.start(System.getenv("PORT") == null ? 7000 : Integer.parseInt(System.getenv("PORT")));
     }
 }
 
