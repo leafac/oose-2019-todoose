@@ -7,15 +7,49 @@
 	"item": [
 		{
 			"name": "Get TODO items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1fd2ce41-9164-4ba6-9279-2c10ad933cd6",
+						"exec": [
+							"pm.test(\"Status code is 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response JSON is a list\", () => {",
+							"    pm.expect(pm.response.json()).to.be.an(\"array\");",
+							"});",
+							"pm.test(\"Items have identifier and description\", () => {",
+							"    pm.response.json().forEach(item => {",
+							"        pm.expect(item).to.have.all.keys(\"identifier\", \"description\");",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4f997152-b08a-4810-8647-2f1238960c07",
+						"exec": [
+							"pm.sendRequest({ url: \"http://localhost:7000/items\", method: \"POST\" });"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost/items",
+					"raw": "http://localhost:7000/items",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
+					"port": "7000",
 					"path": [
 						"items"
 					]
@@ -49,6 +83,38 @@
 		},
 		{
 			"name": "Create new TODO item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "31bba8ee-2938-4282-be95-0d30dd5be307",
+						"exec": [
+							"pm.test(\"Status code is 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"pm.test(\"Identifiers are always increasing\", () => {",
+							"    pm.sendRequest(\"http://localhost:7000/items\", (err, response) => {",
+							"        const identifiers = response.json().map(item => item.identifier).reverse();",
+							"        pm.expect(identifiers[0]).to.be.equal(identifiers[1] + 1);",
+							"    });",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "76cc81c7-59ab-4d79-aff0-20b9817df1e4",
+						"exec": [
+							"pm.sendRequest({ url: \"http://localhost:7000/items\", method: \"POST\" });",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -57,11 +123,12 @@
 					"formdata": []
 				},
 				"url": {
-					"raw": "http://localhost/items",
+					"raw": "http://localhost:7000/items",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
+					"port": "7000",
 					"path": [
 						"items"
 					]
