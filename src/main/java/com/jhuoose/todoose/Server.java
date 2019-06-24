@@ -15,21 +15,12 @@ public class Server {
         var connection = DriverManager.getConnection("jdbc:sqlite:todoose.db");
         app.events(event -> {
             event.serverStarting(() -> {
-                Statement statement = null;
-                try {
-                    statement = connection.createStatement();
-                    statement.execute("CREATE TABLE IF NOT EXISTS items (identifier INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT)");
-                    statement.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                var statement = connection.createStatement();
+                statement.execute("CREATE TABLE IF NOT EXISTS items (identifier INTEGER PRIMARY KEY AUTOINCREMENT, description TEXT)");
+                statement.close();
             });
             event.serverStopped(() -> {
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                connection.close();
             });
         });
         app.get("/items", ctx -> {
