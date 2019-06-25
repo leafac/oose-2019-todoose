@@ -15,7 +15,14 @@
                     <button className="plus-at-the-top" onClick={() => { fetch("/items", { method: "POST" })}}>+</button>
                     <h1>TODOOSE</h1>
                     <ul>
-                        {dataFromServer.map(item => <li key={item.identifier}>{item.description}</li>)}
+                        {
+                            dataFromServer.map(item =>
+                                <li key={item.identifier}>
+                                    <input type="checkbox" onChange={() => { fetch(`/items/${item.identifier}`, { method: "DELETE" }); } } />
+                                    {item.description}
+                                </li>
+                            )
+                        }
                     </ul>
                     <button className="plus-at-the-bottom" onClick={() => { fetch("/items", { method: "POST" })}}>+</button>
                 </div>,

@@ -45,6 +45,16 @@ public class Server {
             statement.close();
             ctx.status(201);
         });
+        app.delete("/items/:identifier", ctx -> {
+            var statement = connection.prepareStatement("DELETE FROM items WHERE identifier = ?");
+            statement.setInt(1, Integer.parseInt(ctx.pathParam("identifier")));
+            if (statement.executeUpdate() == 0) {
+                ctx.status(404);
+            } else {
+                ctx.status(204);
+            }
+            statement.close();
+        });
         app.start(System.getenv("PORT") == null ? 7000 : Integer.parseInt(System.getenv("PORT")));
     }
 }
