@@ -18,8 +18,12 @@
                         {
                             dataFromServer.map(item =>
                                 <li key={item.identifier}>
-                                    <input type="checkbox" onChange={() => { fetch(`/items/${item.identifier}`, { method: "DELETE" }); } } />
-                                    {item.description}
+                                    <form>
+                                        <input type="checkbox" onChange={() => { fetch(`/items/${item.identifier}`, { method: "DELETE" }); } } />
+                                        <input type="text" name="description" value={item.description} onChange={event => {
+                                            fetch(`/items/${item.identifier}`, { method: "PUT", body: new FormData(event.target.parentElement) });
+                                        } }/>
+                                    </form>
                                 </li>
                             )
                         }

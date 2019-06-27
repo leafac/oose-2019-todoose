@@ -55,6 +55,17 @@ public class Server {
             }
             statement.close();
         });
+        app.put("/items/:identifier", ctx -> {
+            var statement = connection.prepareStatement("UPDATE items SET description = ? WHERE identifier = ?");
+            statement.setString(1, ctx.formParam("description"));
+            statement.setInt(2, Integer.parseInt(ctx.pathParam("identifier")));
+            if (statement.executeUpdate() == 0) {
+                ctx.status(404);
+            } else {
+                ctx.status(204);
+            }
+            statement.close();
+        });
         app.start(System.getenv("PORT") == null ? 7000 : Integer.parseInt(System.getenv("PORT")));
     }
 }
