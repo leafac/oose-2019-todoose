@@ -1,10 +1,10 @@
 package com.jhuoose.todoose;
 
+import com.jhuoose.todoose.models.Item;
 import io.javalin.Javalin;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Server {
@@ -57,7 +57,7 @@ public class Server {
         });
         app.put("/items/:identifier", ctx -> {
             var statement = connection.prepareStatement("UPDATE items SET description = ? WHERE identifier = ?");
-            statement.setString(1, ctx.formParam("description"));
+            statement.setString(1, ctx.formParam("description", ""));
             statement.setInt(2, Integer.parseInt(ctx.pathParam("identifier")));
             if (statement.executeUpdate() == 0) {
                 ctx.status(404);
@@ -67,31 +67,5 @@ public class Server {
             statement.close();
         });
         app.start(System.getenv("PORT") == null ? 7000 : Integer.parseInt(System.getenv("PORT")));
-    }
-}
-
-class Item {
-    private int identifier;
-    private String description;
-
-    public Item(int identifier, String description) {
-        this.identifier = identifier;
-        this.description = description;
-    }
-
-    public int getIdentifier() {
-        return identifier;
-    }
-
-    public void setIdentifier(int identifier) {
-        this.identifier = identifier;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }
