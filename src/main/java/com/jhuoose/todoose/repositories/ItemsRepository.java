@@ -17,7 +17,7 @@ public class ItemsRepository {
         statement.close();
     }
 
-    public List<Item> getItems() throws SQLException {
+    public List<Item> getAll() throws SQLException {
         var items = new ArrayList<Item>();
         var statement = connection.createStatement();
         var result = statement.executeQuery("SELECT identifier, description FROM items");
@@ -34,26 +34,42 @@ public class ItemsRepository {
         return items;
     }
 
-    public void createItem() throws SQLException {
+    public Item get(int identifier) throws SQLException, ItemNotFoundException {
+        var statement = connection.prepareStatement("SELECT identifier, description FROM items WHERE identifier = ?");
+        statement.setInt(1, identifier);
+        var result = statement.executeQuery();
+        Item item;
+        if (result.next()) {
+            item = new Item(
+                    result.getInt("identifier"),
+                    result.getString("description")
+            );
+        }
+        else {
+            throw new ItemNotFoundException();
+        }
+        result.close();
+        return item;
+    }
+
+    public void create() throws SQLException {
         var statement = connection.createStatement();
         statement.execute("INSERT INTO items (description) VALUES (\"\")");
         statement.close();
     }
 
-    public boolean deleteItem(int identifier) throws SQLException {
-        var statement = connection.prepareStatement("DELETE FROM items WHERE identifier = ?");
-        statement.setInt(1, identifier);
-        var isDeleted = statement.executeUpdate() == 1;
+    public void update(Item item) throws SQLException {
+        var statement = connection.prepareStatement("UPDATE items SET description = ? WHERE identifier = ?");
+        statement.setString(1, item.getDescription());
+        statement.setInt(2, item.getIdentifier());
+        statement.executeUpdate();
         statement.close();
-        return isDeleted;
     }
 
-    public boolean editItem(int identifier, String description) throws SQLException {
-        var statement = connection.prepareStatement("UPDATE items SET description = ? WHERE identifier = ?");
-        statement.setString(1, description);
-        statement.setInt(2, identifier);
-        var isEdited = statement.executeUpdate() == 1;
+    public void delete(Item item) throws SQLException {
+        var statement = connection.prepareStatement("DELETE FROM items WHERE identifier = ?");
+        statement.setInt(1, item.getIdentifier());
+        statement.executeUpdate();
         statement.close();
-        return isEdited;
     }
 }
