@@ -34,7 +34,7 @@ public class ItemsRepository {
         return items;
     }
 
-    public Item get(int identifier) throws SQLException, ItemNotFoundException {
+    public Item getOne(int identifier) throws SQLException, ItemNotFoundException {
         var statement = connection.prepareStatement("SELECT identifier, description FROM items WHERE identifier = ?");
         statement.setInt(1, identifier);
         var result = statement.executeQuery();

@@ -25,11 +25,11 @@ public class Server {
             ctx.status(201);
         });
         app.delete("/items/:identifier", ctx -> {
-            itemsRepository.delete(itemsRepository.get(Integer.parseInt(ctx.pathParam("identifier"))));
+            itemsRepository.delete(itemsRepository.getOne(Integer.parseInt(ctx.pathParam("identifier"))));
             ctx.status(204);
         });
         app.put("/items/:identifier", ctx -> {
-            var item = itemsRepository.get(Integer.parseInt(ctx.pathParam("identifier")));
+            var item = itemsRepository.getOne(Integer.parseInt(ctx.pathParam("identifier")));
             item.setDescription(ctx.formParam("description", ""));
             itemsRepository.update(item);
             ctx.status(204);
