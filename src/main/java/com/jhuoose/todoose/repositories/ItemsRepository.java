@@ -58,18 +58,18 @@ public class ItemsRepository {
         statement.close();
     }
 
-    public void update(Item item) throws SQLException {
+    public void update(Item item) throws SQLException, ItemNotFoundException {
         var statement = connection.prepareStatement("UPDATE items SET description = ? WHERE identifier = ?");
         statement.setString(1, item.getDescription());
         statement.setInt(2, item.getIdentifier());
-        statement.executeUpdate();
+        if (statement.executeUpdate() == 0) throw new ItemNotFoundException();
         statement.close();
     }
 
-    public void delete(Item item) throws SQLException {
+    public void delete(Item item) throws SQLException, ItemNotFoundException {
         var statement = connection.prepareStatement("DELETE FROM items WHERE identifier = ?");
         statement.setInt(1, item.getIdentifier());
-        statement.executeUpdate();
+        if (statement.executeUpdate() == 0) throw new ItemNotFoundException();
         statement.close();
     }
 }
