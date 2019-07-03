@@ -4,7 +4,7 @@ class Application extends React.Component {
             <div>
                 <PlusButton className="plus-at-the-top"/>
                 <Header/>
-                <ItemList items={this.props.items}/>
+                <ItemList/>
                 <PlusButton className="plus-at-the-bottom"/>
             </div>
         );
@@ -20,8 +20,22 @@ const PlusButton = (props) => (
 const Header = () => <h1>TODOOSE</h1>;
 
 class ItemList extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {items: []};
+    }
+
+    async getDataFromServer() {
+        this.setState({items: await (await fetch("/items")).json()});
+        window.setTimeout(() => { this.getDataFromServer(); }, 200);
+    }
+
+    componentDidMount() {
+        this.getDataFromServer();
+    }
+
     render() {
-        return <ul>{this.props.items.map(item => <Item key={item.identifier} item={item}/>)}</ul>;
+        return <ul>{this.state.items.map(item => <Item key={item.identifier} item={item}/>)}</ul>;
     }
 }
 
@@ -52,11 +66,4 @@ class ItemDescription extends React.Component {
     }
 }
 
-const getDataFromServer = async () => {
-    ReactDOM.render(
-        <Application items={await (await fetch("/items")).json()}/>,
-        document.querySelector("#application")
-    );
-    window.setTimeout(() => { getDataFromServer(); }, 200);
-};
-getDataFromServer();
+ReactDOM.render(<Application/>, document.querySelector("#application"));
