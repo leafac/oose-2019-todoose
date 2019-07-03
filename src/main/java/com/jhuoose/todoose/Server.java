@@ -12,18 +12,14 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 public class Server {
     public static void main(String[] args) throws SQLException {
-        Javalin app = Javalin.create(config -> {
-            config.addStaticFiles("/public");
-        });
         var connection = DriverManager.getConnection("jdbc:sqlite:todoose.db");
         var itemsRepository = new ItemsRepository(connection);
         var itemsController = new ItemsController(itemsRepository);
-        app.events(event -> {
-            event.serverStopped(() -> {
-                connection.close();
-            });
-        });
-        app.routes(() -> {
+        Javalin.create(config -> { config.addStaticFiles("/public"); })
+        .events(event -> {
+            event.serverStopped(() -> { connection.close(); });
+        })
+        .routes(() -> {
             path("items", () -> {
                 get(itemsController::getAll);
                 post(itemsController::create);
@@ -32,8 +28,8 @@ public class Server {
                     put(itemsController::update);
                 });
             });
-        });
-        app.exception(ItemNotFoundException.class, (e, ctx) -> { ctx.status(404); });
-        app.start(System.getenv("PORT") == null ? 7000 : Integer.parseInt(System.getenv("PORT")));
+        })
+        .exception(ItemNotFoundException.class, (e, ctx) -> { ctx.status(404); })
+        .start(System.getenv("PORT") == null ? 7000 : Integer.parseInt(System.getenv("PORT")));
     }
 }
