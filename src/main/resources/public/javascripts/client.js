@@ -1,17 +1,32 @@
 const getDataFromServer = async () => {
-    const response = await fetch("/items");
-    const dataFromServer = await response.json();
-    const Header = () => <h1>TODOOSE</h1>;
+
+    class Application extends React.Component {
+        render() {
+            return (
+                <div>
+                    <PlusButton className="plus-at-the-top"/>
+                    <Header/>
+                    <ItemList items={this.props.items}/>
+                    <PlusButton className="plus-at-the-bottom"/>
+                </div>
+            );
+        }
+    }
+
     const PlusButton = (props) => (
         <button className={props.className} onClick={() => { fetch("/items", { method: "POST" })}}>
             +
         </button>
     );
+
+    const Header = () => <h1>TODOOSE</h1>;
+
     class ItemList extends React.Component {
         render() {
-            return <ul>{dataFromServer.map(item => <Item key={item.identifier} item={item}/>)}</ul>;
+            return <ul>{this.props.items.map(item => <Item key={item.identifier} item={item}/>)}</ul>;
         }
     }
+
     class Item extends React.Component {
         render() {
             return (
@@ -24,9 +39,11 @@ const getDataFromServer = async () => {
             );
         }
     }
+
     const MarkItemAsDoneCheckbox = (props) => (
         <input type="checkbox" onChange={() => { fetch(`/items/${props.item.identifier}`, { method: "DELETE" }); } } />
     );
+
     class ItemDescription extends React.Component {
         render() {
             return (
@@ -36,19 +53,11 @@ const getDataFromServer = async () => {
             );
         }
     }
-    class Application extends React.Component {
-        render() {
-            return (
-                <div>
-                    <PlusButton className="plus-at-the-top"/>
-                    <Header/>
-                    <ItemList/>
-                    <PlusButton className="plus-at-the-bottom"/>
-                </div>
-            );
-        }
-    }
-    ReactDOM.render(<Application/>, document.querySelector("#application"));
+
+    ReactDOM.render(
+        <Application items={await (await fetch("/items")).json()}/>,
+        document.querySelector("#application")
+    );
     window.setTimeout(() => { getDataFromServer(); }, 200);
 };
 getDataFromServer();
