@@ -11,11 +11,19 @@ class Application extends React.Component {
     }
 }
 
-const PlusButton = (props) => (
-    <button className={props.className} onClick={() => { fetch("/items", { method: "POST" })}}>
-        +
-    </button>
-);
+class PlusButton extends React.Component {
+    handleClick() {
+        fetch("/items", { method: "POST" });
+    }
+
+    render() {
+        return (
+            <button className={this.props.className} onClick={() => { this.handleClick(); }}>
+                +
+            </button>
+        );
+    }
+}
 
 const Header = () => <h1>TODOOSE</h1>;
 
@@ -50,14 +58,35 @@ class Item extends React.Component {
     }
 }
 
-const MarkItemAsDoneCheckbox = (props) => (
-    <input type="checkbox" onChange={() => { fetch(`/items/${props.item.identifier}`, { method: "DELETE" }); } } />
-);
+class MarkItemAsDoneCheckbox extends React.Component {
+    handleChange() {
+        fetch(`/items/${this.props.item.identifier}`, { method: "DELETE" });
+    }
+
+    render() {
+        return <input type="checkbox" onChange={() => { this.handleChange(); } } />
+    }
+}
 
 class ItemDescription extends React.Component {
     constructor(props) {
         super(props);
         this.state = null;
+    }
+
+    handleFocus() {
+        this.setState({description: this.props.item.description});
+    }
+
+    handleChange(event) {
+        this.setState({description: event.target.value });
+    }
+
+    async handleBlur() {
+        const formData = new FormData();
+        formData.append("description", this.state.description);
+        await fetch(`/items/${this.props.item.identifier}`, { method: "PUT", body: formData });
+        this.setState(null);
     }
 
     render() {
@@ -66,16 +95,9 @@ class ItemDescription extends React.Component {
                 type="text"
                 name="description"
                 value={this.state === null ? this.props.item.description : this.state.description}
-                onFocus={() => { this.setState({description: this.props.item.description}); }}
-                onChange={event => { this.setState({description: event.target.value }); }}
-                onBlur={
-                    async () => {
-                        const formData = new FormData();
-                        formData.append("description", this.state.description);
-                        await fetch(`/items/${this.props.item.identifier}`, { method: "PUT", body: formData });
-                        this.setState(null);
-                    }
-                }
+                onFocus={() => { this.handleFocus(); }}
+                onChange={event => { this.handleChange(event); }}
+                onBlur={() => { this.handleBlur(); }}
             />
         );
     }
