@@ -38,18 +38,20 @@ public class ItemsRepository {
         var statement = connection.prepareStatement("SELECT identifier, description FROM items WHERE identifier = ?");
         statement.setInt(1, identifier);
         var result = statement.executeQuery();
-        Item item;
-        if (result.next()) {
-            item = new Item(
-                    result.getInt("identifier"),
-                    result.getString("description")
-            );
+        try {
+            if (result.next()) {
+                return new Item(
+                        result.getInt("identifier"),
+                        result.getString("description")
+                );
+            } else {
+                throw new ItemNotFoundException();
+            }
         }
-        else {
-            throw new ItemNotFoundException();
+        finally {
+            statement.close();
+            result.close();
         }
-        result.close();
-        return item;
     }
 
     public void create() throws SQLException {
@@ -62,14 +64,22 @@ public class ItemsRepository {
         var statement = connection.prepareStatement("UPDATE items SET description = ? WHERE identifier = ?");
         statement.setString(1, item.getDescription());
         statement.setInt(2, item.getIdentifier());
-        if (statement.executeUpdate() == 0) throw new ItemNotFoundException();
-        statement.close();
+        try {
+            if (statement.executeUpdate() == 0) throw new ItemNotFoundException();
+        }
+        finally {
+            statement.close();
+        }
     }
 
     public void delete(Item item) throws SQLException, ItemNotFoundException {
         var statement = connection.prepareStatement("DELETE FROM items WHERE identifier = ?");
         statement.setInt(1, item.getIdentifier());
-        if (statement.executeUpdate() == 0) throw new ItemNotFoundException();
-        statement.close();
+        try {
+            if (statement.executeUpdate() == 0) throw new ItemNotFoundException();
+        }
+        finally {
+            statement.close();
+        }
     }
 }
