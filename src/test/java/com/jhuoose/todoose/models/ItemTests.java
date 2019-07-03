@@ -1,4 +1,4 @@
-package com.jhuoose.todoose;
+package com.jhuoose.todoose.models;
 
 import org.junit.jupiter.api.Test;
 
