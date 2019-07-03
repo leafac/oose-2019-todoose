@@ -43,10 +43,8 @@ class Item extends React.Component {
     render() {
         return (
             <li>
-                <form>
-                    <MarkItemAsDoneCheckbox item={this.props.item}/>
-                    <ItemDescription item={this.props.item}/>
-                </form>
+                <MarkItemAsDoneCheckbox item={this.props.item}/>
+                <ItemDescription item={this.props.item}/>
             </li>
         );
     }
@@ -57,11 +55,27 @@ const MarkItemAsDoneCheckbox = (props) => (
 );
 
 class ItemDescription extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = null;
+    }
     render() {
         return (
-            <input type="text" name="description" value={this.props.item.description} onChange={event => {
-                fetch(`/items/${this.props.item.identifier}`, { method: "PUT", body: new FormData(event.target.parentElement) });
-            } }/>
+            <input
+                type="text"
+                name="description"
+                value={this.state === null ? this.props.item.description : this.state.description}
+                onFocus={() => { this.setState({description: this.props.item.description}); }}
+                onChange={event => { this.setState({description: event.target.value }); }}
+                onBlur={
+                    () => {
+                        const formData = new FormData();
+                        formData.append("description", this.state.description);
+                        fetch(`/items/${this.props.item.identifier}`, { method: "PUT", body: formData });
+                        this.setState(null);
+                    }
+                }
+            />
         );
     }
 }
