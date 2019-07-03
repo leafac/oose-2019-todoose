@@ -9,13 +9,13 @@ const getDataFromServer = async () => {
     );
     class ItemList extends React.Component {
         render() {
-            return <ul>{dataFromServer.map(item => <Item item={item}/>)}</ul>;
+            return <ul>{dataFromServer.map(item => <Item key={item.identifier} item={item}/>)}</ul>;
         }
     }
     class Item extends React.Component {
         render() {
             return (
-                <li key={this.props.item.identifier}>
+                <li>
                     <form>
                         <MarkItemAsDoneCheckbox item={this.props.item}/>
                         <ItemDescription item={this.props.item}/>
