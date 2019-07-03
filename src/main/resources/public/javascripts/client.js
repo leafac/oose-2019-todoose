@@ -59,6 +59,7 @@ class ItemDescription extends React.Component {
         super(props);
         this.state = null;
     }
+
     render() {
         return (
             <input
@@ -68,10 +69,10 @@ class ItemDescription extends React.Component {
                 onFocus={() => { this.setState({description: this.props.item.description}); }}
                 onChange={event => { this.setState({description: event.target.value }); }}
                 onBlur={
-                    () => {
+                    async () => {
                         const formData = new FormData();
                         formData.append("description", this.state.description);
-                        fetch(`/items/${this.props.item.identifier}`, { method: "PUT", body: formData });
+                        await fetch(`/items/${this.props.item.identifier}`, { method: "PUT", body: formData });
                         this.setState(null);
                     }
                 }
