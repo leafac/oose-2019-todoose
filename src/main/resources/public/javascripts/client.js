@@ -17,11 +17,7 @@ class PlusButton extends React.Component {
     }
 
     render() {
-        return (
-            <button className={this.props.className} onClick={() => { this.handleClick(); }}>
-                +
-            </button>
-        );
+        return <button className={this.props.className} onClick={() => { this.handleClick(); }}>+</button>;
     }
 }
 
@@ -30,11 +26,11 @@ const Header = () => <h1>TODOOSE</h1>;
 class ItemList extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {items: []};
+        this.state = { items: [] };
     }
 
     async getDataFromServer() {
-        this.setState({items: await (await fetch("/items")).json()});
+        this.setState({ items: await (await fetch("/items")).json() });
         window.setTimeout(() => { this.getDataFromServer(); }, 200);
     }
 
@@ -75,11 +71,11 @@ class ItemDescription extends React.Component {
     }
 
     handleFocus() {
-        this.setState({description: this.props.item.description});
+        this.setState({ description: this.props.item.description });
     }
 
     handleChange(event) {
-        this.setState({description: event.target.value });
+        this.setState({ description: event.target.value });
     }
 
     async handleBlur() {
