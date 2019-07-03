@@ -23,12 +23,12 @@ public class ItemsController {
     }
 
     public void delete(Context ctx) throws SQLException, ItemNotFoundException {
-        itemsRepository.delete(itemsRepository.getOne(Integer.parseInt(ctx.pathParam("identifier"))));
+        itemsRepository.delete(itemsRepository.getOne(ctx.pathParam("identifier", Integer.class).get()));
         ctx.status(204);
     }
 
     public void update(Context ctx) throws SQLException, ItemNotFoundException {
-        var item = itemsRepository.getOne(Integer.parseInt(ctx.pathParam("identifier")));
+        var item = itemsRepository.getOne(ctx.pathParam("identifier", Integer.class).get());
         item.setDescription(ctx.formParam("description", ""));
         itemsRepository.update(item);
         ctx.status(204);
