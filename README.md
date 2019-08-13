@@ -1,6 +1,12 @@
+[![Build Status](https://travis-ci.com/jhu-oose/todoose.svg?branch=master)](https://travis-ci.com/jhu-oose/todoose)
+
 TODOOSE
 =======
 
-[![Build Status](https://travis-ci.com/jhu-oose/todoose.svg?branch=master)](https://travis-ci.com/jhu-oose/todoose)
+https://todoose.herokuapp.com
 
-https://devcenter.heroku.com/articles/heroku-button
+https://www.jhu-oose.com/todoose
+
+https://github.com/jhu-oose/todoose
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
