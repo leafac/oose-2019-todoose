@@ -1,0 +1,7 @@
+{
+  "name": "TODOOSE",
+  "description": "Building a Web Application from Scratch",
+  "website": "https://www.jhu-oose.com/todoose",
+  "repository": "https://github.com/jhu-oose/todoose",
+  "success_url": "/"
+}
