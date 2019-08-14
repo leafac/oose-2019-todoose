@@ -43,17 +43,17 @@ The code for the Client runs directly on the user’s browser, and it is sent th
 
 [`vendor/`](/src/main/resources/public/javascripts/vendor): A directory containing the libraries we’re using on the Client: React and [Babel](https://babeljs.io) (to add support for JSX).
 
+API Documentation
+-----------------
+
+[**Postman Collection**](/documentation/TODOOSE.postman_collection.json): The [Server](#server) and the [Client](#client) communicate through an API. The [Postman](https://www.jhu-oose.com/toolbox/#application-programming-interfaceapi-development-environmentade-postman) Collection documents what are the endpoints that the Server must provide and the Client may consume. It includes examples of the API in use as well as tests (see below).
+
 Tests
 -----
 
 [`ItemTests`](/src/test/java/com/jhuoose/todoose/models/ItemTests.java): Automated tests for the `Item` model (see above). This is something called **Unit Tests**, because it tests an **unit** of code (in this case, a **model**). These tests are artificially simple because the models in TODOOSE are artificially simple. In a more realistic application these tests would exercise the logic in the models, for example, the rules of a game.
 
-[**Postman Tests**](/documentation/TODOOSE.postman_collection.json): Automated tests for the Server as a whole—they’re sometimes called **System Tests**. They simulate what a browser would do, communicating with the Server through HTTP. To run these tests, you must start the server and import the [Postman](https://www.jhu-oose.com/toolbox/#application-programming-interfaceapi-development-environmentade-postman) Collection.
-
-API Documentation
------------------
-
-[**Postman Collection**](/documentation/TODOOSE.postman_collection.json): The [Server](#server) and the [Client](#client) communicate through an API. The Postman Collection documents what are the endpoints that the Server must provide and the Client may consume. It includes examples of the API in use as well as tests (see above).
+[**Postman Tests**](/documentation/TODOOSE.postman_collection.json): Automated tests for the Server as a whole—they’re sometimes called **System Tests**. They simulate what a browser would do, communicating with the Server through HTTP. To run these tests, you must start the server and import the Postman Collection.
 
 Auxiliary Files
 ---------------
