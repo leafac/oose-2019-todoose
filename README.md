@@ -1,24 +1,18 @@
-[![Build Status](https://travis-ci.com/jhu-oose/todoose.svg?branch=master)](https://travis-ci.com/jhu-oose/todoose)
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+# TODOOSE
 
-TODOOSE
-=======
+|                                    |                                                                                                                     |
+| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| Live Version                       | https://todoose.herokuapp.com                                                                                       |
+| Videos on Building TODOOSE         | https://www.jhu-oose.com/todoose                                                                                    |
+| Code Base on GitHub                | https://github.com/jhu-oose/todoose                                                                                 |
+| Build Status on Travis CI          | [![Build Status](https://travis-ci.com/jhu-oose/todoose.svg?branch=master)](https://travis-ci.com/jhu-oose/todoose) |
+| Deploy Your Own Instance to Heroku | [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)                                 |
 
-Building an Application from Scratch
-
-https://todoose.herokuapp.com
-
-https://www.jhu-oose.com/todoose
-
-https://github.com/jhu-oose/todoose
-
-Architecture
-------------
+## Architecture
 
 TODOOSE is a web application. It’s divided in two components, the [server](#server), and the [client](#client). It uses the tools in the [Toolbox](https://www.jhu-oose.com/toolbox/).
 
-Server
-------
+## Server
 
 [`Server`](/src/main/java/com/jhuoose/todoose/Server.java): The entry point of the Server, including the `main` method that is called when the Server starts. The `Server` class uses [Javalin](https://www.jhu-oose.com/toolbox/#web-server-javalin) to start a web server, sets up routing for incoming HTTP requests, connects to the [SQLite database](https://www.jhu-oose.com/toolbox/#database-management-systemdbms-sqlite), and so forth.
 
@@ -28,8 +22,7 @@ Server
 
 [`ItemsController`](/src/main/java/com/jhuoose/todoose/controllers/ItemsController.java): A controller handles the HTTP requests as they come in, orchestrate the work of models and repositories (see above), and determine what the HTTP response should be.
 
-Client
-------
+## Client
 
 The code for the Client runs directly on the user’s browser, and it is sent there by the [Server](#server). When the user visits <https://todoose.herokuapp.com>, for example, the Server knows that by convention the user wants the file `index.html`, so it sends that file to the user’s browser. This is different from what happens when the browser requests <https://todoose.herokuapp.com/items>, for example, which is one of the API endpoints (see below) with functionality for TODOOSE. In this case, the Server has to use the router, controllers, models, repositories, and so forth, to produce a [JSON response](https://www.jhu-oose.com/toolbox/#data-interchange-format-javascript-object-notationjson).
 
@@ -43,20 +36,17 @@ The code for the Client runs directly on the user’s browser, and it is sent th
 
 [`vendor/`](/src/main/resources/public/javascripts/vendor): A directory containing the libraries we’re using on the Client: React and [Babel](https://babeljs.io) (to add support for JSX).
 
-API Documentation
------------------
+## API Documentation
 
-[**Postman Collection**](/documentation/TODOOSE.postman_collection.json): The [Server](#server) and the [Client](#client) communicate through an API. The [Postman](https://www.jhu-oose.com/toolbox/#application-programming-interfaceapi-development-environmentade-postman) Collection documents what are the endpoints that the Server must provide and the Client may consume. It includes examples of the API in use as well as tests (see below).
+[**Postman Collection**](/docs/TODOOSE.postman_collection.json): The [Server](#server) and the [Client](#client) communicate through an API. The [Postman](https://www.jhu-oose.com/toolbox/#application-programming-interfaceapi-development-environmentade-postman) Collection documents what are the endpoints that the Server must provide and the Client may consume. It includes examples of the API in use as well as tests (see below).
 
-Tests
------
+## Tests
 
 [`ItemTests`](/src/test/java/com/jhuoose/todoose/models/ItemTests.java): Automated tests for the `Item` model (see above). This is something called **Unit Tests**, because it tests an **unit** of code (in this case, a **model**). These tests are artificially simple because the models in TODOOSE are artificially simple. In a more realistic application these tests would exercise the logic in the models, for example, the rules of a game.
 
-[**Postman Tests**](/documentation/TODOOSE.postman_collection.json): Automated tests for the Server as a whole—they’re sometimes called **System Tests**. They simulate what a browser would do, communicating with the Server through HTTP. To run these tests, you must start the server and import the Postman Collection.
+[**Postman Tests**](/docs/TODOOSE.postman_collection.json): Automated tests for the Server as a whole—they’re sometimes called **System Tests**. They simulate what a browser would do, communicating with the Server through HTTP. To run these tests, you must start the server and import the Postman Collection.
 
-Auxiliary Files
----------------
+## Auxiliary Files
 
 [`.gitignore`](/.gitignore): Configuration for [Git](https://www.jhu-oose.com/toolbox/#version-control-systemvcs-git), specifying which files must **not** be versioned (tracked), because they belong not the project, but the developer’s machine, for example, the `.DS_Store` files generated by Finder in macOS.
 
