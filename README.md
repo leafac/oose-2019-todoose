@@ -1,12 +1,14 @@
 # TODOOSE
 
-|                                    |                                                                                                                     |
-| ---------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| Live Version                       | https://todoose.herokuapp.com                                                                                       |
-| Videos on Building TODOOSE         | https://www.jhu-oose.com/todoose                                                                                    |
-| Code Base on GitHub                | https://github.com/jhu-oose/todoose                                                                                 |
-| Build Status on Travis CI          | [![Build Status](https://travis-ci.com/jhu-oose/todoose.svg?branch=master)](https://travis-ci.com/jhu-oose/todoose) |
-| Deploy Your Own Instance to Heroku | [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)                                 |
+[Live Version](https://todoose.herokuapp.com)
+
+[Code Base](https://github.com/jhu-oose/todoose)
+
+[Videos on Building TODOOSE from Scratch](https://www.jhu-oose.com/todoose)
+
+[![Build Status](https://travis-ci.com/jhu-oose/todoose.svg?branch=master)](https://travis-ci.com/jhu-oose/todoose)
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 ## Architecture
 
