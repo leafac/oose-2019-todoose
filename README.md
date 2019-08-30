@@ -1,5 +1,7 @@
 # TODOOSE
 
+**A to-do application for [OOSE](https://www.jhu-oose.com)**
+
 [Live Version](https://todoose.herokuapp.com)
 
 [Code Base](https://github.com/jhu-oose/todoose)

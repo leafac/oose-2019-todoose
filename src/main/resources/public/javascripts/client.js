@@ -11,6 +11,11 @@ class Application extends React.Component {
     }
 }
 
-const Header = () => <h1>TODOOSE</h1>;
+const Header = () => (
+    <header>
+        <h1>TODOOSE</h1>
+        <p><small>A <a href="https://github.com/jhu-oose/todoose">to-do application</a> for <a href="https://www.jhu-oose.com">OOSE</a></small></p>
+    </header>
+);
 
 ReactDOM.render(<Application/>, document.querySelector("#application"));
