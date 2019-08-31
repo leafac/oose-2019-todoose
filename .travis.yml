@@ -4,4 +4,4 @@ install: npm install -g newman
 script:
   - ./gradlew assemble
   - ./gradlew check
-  - ./gradlew run & sleep 5 && newman run documentation/TODOOSE.postman_collection.json && kill %1
+  - ./gradlew run & sleep 5 && newman run docs/TODOOSE.postman_collection.json && kill %1
