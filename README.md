@@ -4,6 +4,8 @@
 
 [Code Base](https://github.com/jhu-oose/todoose)
 
+[Video on Getting Started](https://archive.org/download/todoose/todoose--getting-started.mp4)
+
 [Videos on Building TODOOSE from Scratch](https://www.jhu-oose.com/todoose)
 
 [![Build Status](https://travis-ci.com/jhu-oose/todoose.svg?branch=master)](https://travis-ci.com/jhu-oose/todoose)
