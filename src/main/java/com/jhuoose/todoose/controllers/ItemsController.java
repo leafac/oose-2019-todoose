@@ -22,15 +22,20 @@ public class ItemsController {
         ctx.status(201);
     }
 
-    public void delete(Context ctx) throws SQLException, ItemNotFoundException {
-        itemsRepository.delete(itemsRepository.getOne(ctx.pathParam("identifier", Integer.class).get()));
-        ctx.status(204);
-    }
-
     public void update(Context ctx) throws SQLException, ItemNotFoundException {
         var item = itemsRepository.getOne(ctx.pathParam("identifier", Integer.class).get());
-        item.setDescription(ctx.formParam("description", ""));
-        itemsRepository.update(item);
+        var description = ctx.formParam("description", "");
+        // TODO: (Optional) I think this will work. But it sort of sucks to have to ‘if/then/else’ on
+        //  the field like that, and call different methods on the repository. Can you make this better?
+        if (description.isEmpty()) {
+            var completed = ctx.formParam("completed", Boolean.class).get();
+            item.setCompleted(completed);
+            itemsRepository.markAsCompleted(item);
+        }
+        else {
+            item.setDescription(description);
+            itemsRepository.update(item);
+        }
         ctx.status(204);
     }
 }
