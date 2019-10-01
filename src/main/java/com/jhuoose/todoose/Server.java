@@ -24,10 +24,6 @@ public class Server {
                 get(itemsController::getAll);
                 post(itemsController::create);
                 path(":identifier", () -> {
-                    // TODO: Change the documentation of ‘Mark items as done’ to:
-                    //  1. Use the appropriate method, as discussed in lecture.
-                    //  2. Pass the appropriate field: ‘completed’.
-                    //  3. Update the example accordingly.
                     put(itemsController::update);
                 });
             });

@@ -21,12 +21,13 @@ public class ItemsRepository {
         var items = new ArrayList<Item>();
         var statement = connection.createStatement();
         // TODO: Get the ‘completed’ field from the database.
-        var result = statement.executeQuery("SELECT identifier, description FROM items");
+        var result = statement.executeQuery("SELECT identifier, description, completed FROM items");
         while (result.next()) {
             items.add(
                 new Item(
                     result.getInt("identifier"),
-                    result.getString("description")
+                    result.getString("description"),
+                    result.getBoolean("completed")
                 )
             );
         }
@@ -36,15 +37,15 @@ public class ItemsRepository {
     }
 
     public Item getOne(int identifier) throws SQLException, ItemNotFoundException {
-        // TODO: Get the ‘completed’ field from the database (same solution as above).
-        var statement = connection.prepareStatement("SELECT identifier, description FROM items WHERE identifier = ?");
+        var statement = connection.prepareStatement("SELECT identifier, description, completed FROM items WHERE identifier = ?");
         statement.setInt(1, identifier);
         var result = statement.executeQuery();
         try {
             if (result.next()) {
                 return new Item(
                         result.getInt("identifier"),
-                        result.getString("description")
+                        result.getString("description"),
+                        result.getBoolean("completed")
                 );
             } else {
                 throw new ItemNotFoundException();
@@ -62,23 +63,11 @@ public class ItemsRepository {
         statement.close();
     }
 
-    // TODO: Rename ‘update’ to be more revealing (for example, ‘updateDescription’).
     public void update(Item item) throws SQLException, ItemNotFoundException {
-        var statement = connection.prepareStatement("UPDATE items SET description = ? WHERE identifier = ?");
+        var statement = connection.prepareStatement("UPDATE items SET description = ?, completed = ? WHERE identifier = ?");
         statement.setString(1, item.getDescription());
-        statement.setInt(2, item.getIdentifier());
-        try {
-            if (statement.executeUpdate() == 0) throw new ItemNotFoundException();
-        }
-        finally {
-            statement.close();
-        }
-    }
-
-    public void markAsCompleted(Item item) throws SQLException, ItemNotFoundException {
-        var statement = connection.prepareStatement("UPDATE items SET completed = ? WHERE identifier = ?");
-        statement.setBoolean(1, item.isCompleted());
-        statement.setInt(2, item.getIdentifier());
+        statement.setBoolean(2, item.isCompleted());
+        statement.setInt(3, item.getIdentifier());
         try {
             if (statement.executeUpdate() == 0) throw new ItemNotFoundException();
         }

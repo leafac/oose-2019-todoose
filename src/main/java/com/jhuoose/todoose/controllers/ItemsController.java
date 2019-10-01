@@ -25,17 +25,10 @@ public class ItemsController {
     public void update(Context ctx) throws SQLException, ItemNotFoundException {
         var item = itemsRepository.getOne(ctx.pathParam("identifier", Integer.class).get());
         var description = ctx.formParam("description", "");
-        // TODO: (Optional) I think this will work. But it sort of sucks to have to ‘if/then/else’ on
-        //  the field like that, and call different methods on the repository. Can you make this better?
-        if (description.isEmpty()) {
-            var completed = ctx.formParam("completed", Boolean.class).get();
-            item.setCompleted(completed);
-            itemsRepository.markAsCompleted(item);
-        }
-        else {
-            item.setDescription(description);
-            itemsRepository.update(item);
-        }
+        if (!description.isEmpty()) item.setDescription(description);
+        var completed = ctx.formParam("completed", Boolean.class).getOrNull();
+        if (completed != null) item.setCompleted(completed);
+        itemsRepository.update(item);
         ctx.status(204);
     }
 }
