@@ -11,6 +11,8 @@ class PlusButton extends React.Component {
 class ItemList extends React.Component {
     constructor(props) {
         super(props);
+        // TODO: Add the current situation of whether to show the completed items or not to the state.
+        // Hint: It will look like this: ‘showCompleted: false’
         this.state = { items: [] };
     }
 
@@ -24,14 +26,24 @@ class ItemList extends React.Component {
     }
 
     render() {
-        return <ul>{this.state.items.map(item => <Item key={item.identifier} item={item}/>)}</ul>;
+        // TODO: When rendering the ‘ShowHideCompletedItems’ button say the right word, depending on ‘this.state.showCompleted’. You want to say either “Show” or “Hide”.
+        // Hint: Pass the ‘this.state.showCompleted’ as a prop to ‘ShowHideCompletedItems’.
+        // TODO: Make the ‘ShowHideCompletedItems’ flip the ‘this.state.showCompleted’.
+        // Hint: Pass a function that flips the ‘this.state.showCompleted’ as a prop to ‘ShowHideCompletedItems’.
+        return (
+            <div>
+                <ShowHideCompletedItems />
+                <ul>{this.state.items.map(item => <Item key={item.identifier} item={item}/>)}</ul>
+            </div>
+        );
     }
 }
 
 class Item extends React.Component {
     render() {
+        // TODO: If ‘showCompleted’ is true, then don’t hide the items.
         return (
-            <li>
+            <li style={{display: this.props.item.completed ? "none" : "block"}}>
                 <MarkItemAsDoneCheckbox item={this.props.item}/>
                 <ItemDescription item={this.props.item}/>
             </li>
@@ -39,13 +51,25 @@ class Item extends React.Component {
     }
 }
 
+class ShowHideCompletedItems extends React.Component {
+    render() {
+        // TODO: When rendering the ‘ShowHideCompletedItems’ button say the right word, depending on ‘this.state.showCompleted’. You want to say either “Show” or “Hide”.
+        // Hint: Use the prop passed from ‘ItemList’.
+        // TODO: Make the ‘ShowHideCompletedItems’ flip the ‘this.state.showCompleted’.
+        // Hint: Use the prop passed from ‘ItemList’.
+        return (<button>Show Completed</button>);
+    }
+}
+
 class MarkItemAsDoneCheckbox extends React.Component {
     handleChange() {
-        fetch(`/items/${this.props.item.identifier}`, { method: "DELETE" });
+        const formData = new FormData();
+        formData.append("completed", !this.props.item.completed);
+        fetch(`/items/${this.props.item.identifier}`, { method: "PUT", body: formData });
     }
 
     render() {
-        return <input type="checkbox" onChange={() => { this.handleChange(); } } />
+        return <input type="checkbox" onChange={() => { this.handleChange(); } } checked={this.props.item.completed} />
     }
 }
 

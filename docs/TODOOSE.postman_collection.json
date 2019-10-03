@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "4004e43f-c3d8-4efc-a2b8-696109a96797",
+		"_postman_id": "39085907-721e-4eb8-bff4-278f56321cb4",
 		"name": "TODOOSE",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -21,6 +21,7 @@
 							"});",
 							"pm.test(\"Items have identifier and description\", () => {",
 							"    pm.response.json().forEach(item => {",
+							"        // TODO: Missing one key.",
 							"        pm.expect(item).to.have.all.keys(\"identifier\", \"description\");",
 							"    });",
 							"});",
@@ -176,11 +177,11 @@
 							"    pm.response.to.have.status(204);",
 							"});",
 							"",
-							"pm.test(\"Item is deleted\", () => {",
+							"pm.test(\"Item is marked as completed\", () => {",
 							"    pm.sendRequest(\"http://localhost:7000/items\", (err, response) => {",
 							"        pm.expect(",
-							"            response.json().map(item => item.identifier)",
-							"        ).to.not.include(parseInt(pm.environment.get(\"itemIdentifier\")));",
+							"            response.json().find(item => item.identifier === parseInt(pm.environment.get(\"itemIdentifier\"))).completed",
+							"        ).to.be.true;",
 							"    });",
 							"});",
 							"",
@@ -212,7 +213,14 @@
 			],
 			"request": {
 				"method": "PUT",
-				"header": [],
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
 				"body": {
 					"mode": "formdata",
 					"formdata": [
@@ -286,11 +294,11 @@
 							"    pm.response.to.have.status(204);",
 							"});",
 							"",
-							"pm.test(\"Item is deleted\", () => {",
+							"pm.test(\"Item is marked as incomplete\", () => {",
 							"    pm.sendRequest(\"http://localhost:7000/items\", (err, response) => {",
 							"        pm.expect(",
-							"            response.json().map(item => item.identifier)",
-							"        ).to.not.include(parseInt(pm.environment.get(\"itemIdentifier\")));",
+							"            response.json().find(item => item.identifier === parseInt(pm.environment.get(\"itemIdentifier\"))).completed",
+							"        ).to.be.false;",
 							"    });",
 							"});",
 							"",
@@ -312,6 +320,10 @@
 							"pm.sendRequest({ url: \"http://localhost:7000/items\", method: \"POST\" }, () => {",
 							"    pm.sendRequest(\"http://localhost:7000/items\", (err, response) => {",
 							"        pm.environment.set(\"itemIdentifier\", response.json().last().identifier);",
+							"        // TODO: Mark the item as complete, to make the test actually test something.",
+							"        // Hint 1: Send a request similar to the POST request above, but with a PUT method instead, because we aren’t creating an item; we’re modifying it, to mark it as complete.",
+							"        // Hint 2: To make this request work, you need to include some form data, similar to how we do that in the “Mark item as done” request. Except that here you’re doing that programmatically.",
+							"        // Hint 3: To do that, you need to look up the documentation for .sendRequest() and use the mode called \"formdata\".",
 							"    });",
 							"});",
 							""
