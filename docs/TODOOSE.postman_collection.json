@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "aaaf50da-d287-4499-b6c7-73e32f1893d3",
+		"_postman_id": "77907098-6df0-4079-ba5f-123133196cdd",
 		"name": "TODOOSE",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -108,7 +108,6 @@
 					"script": {
 						"id": "76cc81c7-59ab-4d79-aff0-20b9817df1e4",
 						"exec": [
-							"pm.sendRequest({ url: \"http://localhost:7000/items\", method: \"POST\" });",
 							""
 						],
 						"type": "text/javascript"
@@ -362,5 +361,6 @@
 				}
 			]
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }
