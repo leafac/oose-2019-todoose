@@ -1,18 +1,24 @@
-function Game() {
-    return (
-        <div>
-            <PlayerChoice/>
-            <PlayerChoice/>
-            <Winner/>
-        </div>
-    );
+class Game extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { player1Choice: null, player2Choice: null};
+    }
+    render() {
+        return (
+            <div>
+                <h1>Rock–Paper–Scissors</h1>
+                <PlayerChoice numPlayer={1}/>
+                <PlayerChoice numPlayer={2}/>
+                <Winner/>
+            </div>
+        );
+    }
 }
 
-function PlayerChoice() {
+function PlayerChoice(props) {
     return (
         <div>
-            <Header/>
-            <p>Player 1: <button>💎</button> <button>🧻</button> <button>✄</button></p>
+            <p>Player {props.numPlayer}: <button>💎</button> <button>🧻</button> <button>✄</button></p>
         </div>
     );
 }
@@ -20,18 +26,11 @@ function PlayerChoice() {
 function Winner() {
     return (
         <div>
-            <Header/>
-            <div>
-                <p>Player 1 choose 🧻</p>
-                <p>Player {1 + 1} choose 🧻</p>
-                <p><strong>Player 1 wins!</strong></p>
-            </div>
+            <p>Player 1 choose 🧻</p>
+            <p>Player {1 + 1} choose 🧻</p>
+            <p><strong>Player 1 wins!</strong></p>
         </div>
     )
-}
-
-function Header() {
-    return <h1>Rock–Paper–Scissors</h1>;
 }
 
 ReactDOM.render(<Game />, document.querySelector("#game"));
