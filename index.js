@@ -1,3 +1,7 @@
+// TODO: Make the buttons change the state. See § State, Event, and State Lifting on the lecture notes, as well as React’s documentation.
+// TODO: Only show one of the views at a time.
+// TODO: Actually compute who won.
+
 class Game extends React.Component {
     constructor(props) {
         super(props);
