@@ -1,13 +1,14 @@
 function Game() {
     return (
         <div>
-            <Player1Choice/>
+            <PlayerChoice/>
+            <PlayerChoice/>
             <Winner/>
         </div>
     );
 }
 
-function Player1Choice() {
+function PlayerChoice() {
     return (
         <div>
             <Header/>
