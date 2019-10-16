@@ -1,6 +1,12 @@
 class PlusButton extends React.Component {
-    handleClick() {
+    async handleClick() {
+        console.log(`Before: ${await this.countItems()}`);
         fetch("/items", { method: "POST" });
+        console.log(`After: ${await this.countItems()}`);
+    }
+
+    async countItems() {
+        return (await (await fetch("/items")).json()).length;
     }
 
     render() {
