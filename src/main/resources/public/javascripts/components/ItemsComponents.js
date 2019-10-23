@@ -72,15 +72,18 @@ class ItemDescription extends React.Component {
 
     render() {
         return (
-            <input
-                type="text"
-                name="description"
-                autoComplete="off"
-                value={this.state === null ? this.props.item.description : this.state.description}
-                onFocus={() => { this.handleFocus(); }}
-                onChange={event => { this.handleChange(event); }}
-                onBlur={() => { this.handleBlur(); }}
-            />
+            <div>
+                <input
+                    type="text"
+                    name="description"
+                    autoComplete="off"
+                    value={this.state === null ? this.props.item.description : this.state.description}
+                    onFocus={() => { this.handleFocus(); }}
+                    onChange={event => { this.handleChange(event); }}
+                    onBlur={() => { this.handleBlur(); }}
+                />
+                <p dangerouslySetInnerHTML={{__html: this.props.item.description}}></p>
+            </div>
         );
     }
 }
