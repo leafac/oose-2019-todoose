@@ -61,9 +61,7 @@ public class ItemsRepository {
     }
 
     public void update(Item item) throws SQLException, ItemNotFoundException {
-        var statement = connection.prepareStatement("UPDATE items SET description = ? WHERE identifier = ?");
-        statement.setString(1, item.getDescription());
-        statement.setInt(2, item.getIdentifier());
+        var statement = connection.prepareStatement("UPDATE items SET description = \"" + item.getDescription() + "\" WHERE identifier = " + item.getIdentifier());
         try {
             if (statement.executeUpdate() == 0) throw new ItemNotFoundException();
         }
