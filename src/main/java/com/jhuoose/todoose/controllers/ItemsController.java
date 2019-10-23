@@ -7,13 +7,16 @@ import io.javalin.http.Context;
 import java.sql.SQLException;
 
 public class ItemsController {
+    private UsersController usersController;
     private ItemsRepository itemsRepository;
 
-    public ItemsController(ItemsRepository itemsRepository) {
+    public ItemsController(UsersController usersController, ItemsRepository itemsRepository) {
+        this.usersController = usersController;
         this.itemsRepository = itemsRepository;
     }
 
     public void getAll(Context ctx) throws SQLException {
+        var user = usersController.currentUser(ctx);
         ctx.json(itemsRepository.getAll());
     }
 
