@@ -1,3 +1,5 @@
+# This is an archived version of https://github.com/jhu-oose/todoose that I (@leafac) developed when teaching the course in the Fall of 2019. Some of the links may be broken. The deployed version lives at <https://leafac-oose-todoose.herokuapp.com>.
+
 # TODOOSE
 
 **A to-do application for [OOSE](https://www.jhu-oose.com)**
